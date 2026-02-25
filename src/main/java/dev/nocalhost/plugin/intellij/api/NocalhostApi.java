@@ -197,9 +197,10 @@ public class NocalhostApi {
                 throw new NocalhostApiException(url, "get server version", response.code(), resp.getMessage());
             }
 
-            InputStream configInputStream = NocalhostBinService.class.getClassLoader().getResourceAsStream("config.properties");
             Properties properties = new Properties();
-            properties.load(configInputStream);
+            try (InputStream configInputStream = NocalhostBinService.class.getClassLoader().getResourceAsStream("config.properties")) {
+                properties.load(configInputStream);
+            }
 
             String serverVersion = resp.getData().getVersion();
             if (!StringUtils.isNotEmpty(serverVersion)) {

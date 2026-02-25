@@ -1,4 +1,5 @@
 import org.jetbrains.intellij.platform.gradle.IntelliJPlatformType
+import org.jetbrains.intellij.platform.gradle.tasks.RunIdeTask
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -127,6 +128,10 @@ val runPyCharm by intellijPlatformTesting.runIde.registering {
 }
 val runPhpStorm by intellijPlatformTesting.runIde.registering {
     type = IntelliJPlatformType.PhpStorm
+}
+
+tasks.withType(RunIdeTask::class) {
+    jvmArgs("-XX:+UnlockDiagnosticVMOptions")
 }
 
 tasks {

@@ -48,9 +48,8 @@ public class NocalhostBinService {
     private volatile boolean triedGithub = false;
 
     public NocalhostBinService() {
-        InputStream in = NocalhostBinService.class.getClassLoader().getResourceAsStream("config.properties");
         Properties properties = new Properties();
-        try {
+        try (InputStream in = NocalhostBinService.class.getClassLoader().getResourceAsStream("config.properties")) {
             properties.load(in);
         } catch (IOException ignore) {
         }

@@ -2,6 +2,7 @@ package dev.nocalhost.plugin.intellij.ui;
 
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.util.Disposer;
 import com.intellij.openapi.wm.StatusBar;
 import com.intellij.openapi.wm.StatusBarWidget;
 import com.intellij.openapi.wm.WindowManager;
@@ -38,7 +39,9 @@ public class SyncStatusWidget implements StatusBarWidget {
 
     @Override
     public void install(@NotNull StatusBar statusBar) {
-        ApplicationManager.getApplication().executeOnPooledThread(() -> {
+/*        ApplicationManager.getApplication().executeOnPooledThread(() -> {
+            // TODO
+            return;
             updateThread = Thread.currentThread();
             while (!forceExit) {
                 statusBar.updateWidget("Nocalhost Sync Status");
@@ -46,7 +49,7 @@ public class SyncStatusWidget implements StatusBarWidget {
                     Thread.sleep(1000);
                 } catch (InterruptedException ignore) {}
             }
-        });
+        });*/
     }
 
     @Override
@@ -55,5 +58,6 @@ public class SyncStatusWidget implements StatusBarWidget {
         if (updateThread != null && !updateThread.isInterrupted()) {
             updateThread.interrupt();
         }
+        Disposer.dispose(syncStatusPresentation);
     }
 }

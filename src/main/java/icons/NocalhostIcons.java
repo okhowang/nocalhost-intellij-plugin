@@ -5,41 +5,45 @@ import com.intellij.openapi.util.IconLoader;
 import javax.swing.*;
 
 public interface NocalhostIcons {
-    Icon Logo = IconLoader.getIcon("/icons/logo.svg", NocalhostIcons.class);
-    Icon ConfigurationLogo = IconLoader.getIcon("/icons/configuration-logo.svg", NocalhostIcons.class);
+    // https://intellij-support.jetbrains.com/hc/en-us/community/posts/4404338300050/comments/22487112673682
+    static Icon getIcon(String path) {
+        return IconLoader.findIcon(NocalhostIcons.class.getResource(path), false);
+    }
+    Icon Logo = getIcon("/icons/logo.svg");
+    Icon ConfigurationLogo = getIcon("/icons/configuration-logo.svg");
 
     interface App {
-        Icon Connected = IconLoader.getIcon("/icons/app_connected.svg", NocalhostIcons.class);
-        Icon Inactive = IconLoader.getIcon("/icons/app_inactive.svg", NocalhostIcons.class);
+        Icon Connected = getIcon("/icons/app_connected.svg");
+        Icon Inactive = getIcon("/icons/app_inactive.svg");
     }
 
     interface Status {
-        Icon Running = IconLoader.getIcon("/icons/status_running.svg", NocalhostIcons.class);
-        Icon Unknown = IconLoader.getIcon("/icons/status_unknown.svg", NocalhostIcons.class);
-        Icon Failed = IconLoader.getIcon("/icons/status-failed.svg", NocalhostIcons.class);
-        Icon Loading = IconLoader.getIcon("/icons/loading.svg", NocalhostIcons.class);
-        Icon DevCopy = IconLoader.getIcon("/icons/dev_copy.svg", NocalhostIcons.class);
-        Icon DevCopyWithPortForwarding = IconLoader.getIcon("/icons/dev_copy_port_forwarding.svg", NocalhostIcons.class);
-        Icon DevStart = IconLoader.getIcon("/icons/dev_start.svg", NocalhostIcons.class);
-        Icon DevEnd = IconLoader.getIcon("/icons/dev_end.svg", NocalhostIcons.class);
-        Icon DevOther = IconLoader.getIcon("/icons/dev_other.svg", NocalhostIcons.class);
-        Icon DevPortForwarding = IconLoader.getIcon("/icons/dev_port_forwarding.svg", NocalhostIcons.class);
-        Icon DevPortForwardingOther = IconLoader.getIcon("/icons/dev_port_forwarding_other.svg", NocalhostIcons.class);
-        Icon NormalPortForwarding = IconLoader.getIcon("/icons/normal_port_forwarding.svg", NocalhostIcons.class);
+        Icon Running = getIcon("/icons/status_running.svg");
+        Icon Unknown = getIcon("/icons/status_unknown.svg");
+        Icon Failed = getIcon("/icons/status-failed.svg");
+        Icon Loading = getIcon("/icons/loading.svg");
+        Icon DevCopy = getIcon("/icons/dev_copy.svg");
+        Icon DevCopyWithPortForwarding = getIcon("/icons/dev_copy_port_forwarding.svg");
+        Icon DevStart = getIcon("/icons/dev_start.svg");
+        Icon DevEnd = getIcon("/icons/dev_end.svg");
+        Icon DevOther = getIcon("/icons/dev_other.svg");
+        Icon DevPortForwarding = getIcon("/icons/dev_port_forwarding.svg");
+        Icon DevPortForwardingOther = getIcon("/icons/dev_port_forwarding_other.svg");
+        Icon NormalPortForwarding = getIcon("/icons/normal_port_forwarding.svg");
     }
 
-    Icon CloudUpload = IconLoader.getIcon("/icons/cloud_upload.svg", NocalhostIcons.class);
+    Icon CloudUpload = getIcon("/icons/cloud_upload.svg");
 
-    Icon ClusterActive = IconLoader.getIcon("/icons/cluster_active.svg", NocalhostIcons.class);
-    Icon ClusterWarning = IconLoader.getIcon("/icons/cluster_warning.svg", NocalhostIcons.class);
+    Icon ClusterActive = getIcon("/icons/cluster_active.svg");
+    Icon ClusterWarning = getIcon("/icons/cluster_warning.svg");
 
-    Icon DevSpace = IconLoader.getIcon("/icons/devspace.svg", NocalhostIcons.class);
-    Icon DevSpaceViewer = IconLoader.getIcon("/icons/devspace_viewer.svg", NocalhostIcons.class);
+    Icon DevSpace = getIcon("/icons/devspace.svg");
+    Icon DevSpaceViewer = getIcon("/icons/devspace_viewer.svg");
 
     interface VPN {
-        Icon Others = IconLoader.getIcon("/icons/vpn_others.svg", NocalhostIcons.class);
-        Icon Healthy = IconLoader.getIcon("/icons/vpn_healthy.svg", NocalhostIcons.class);
-        Icon Unhealthy = IconLoader.getIcon("/icons/vpn_unhealthy.svg", NocalhostIcons.class);
-        Icon Disconnect = IconLoader.getIcon("/icons/vpn_disconnect.svg", NocalhostIcons.class);
+        Icon Others = getIcon("/icons/vpn_others.svg");
+        Icon Healthy = getIcon("/icons/vpn_healthy.svg");
+        Icon Unhealthy = getIcon("/icons/vpn_unhealthy.svg");
+        Icon Disconnect = getIcon("/icons/vpn_disconnect.svg");
     }
 }

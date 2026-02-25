@@ -1,6 +1,8 @@
 package dev.nocalhost.plugin.intellij.startup
 
 import com.intellij.ide.ApplicationInitializedListener
+import com.intellij.ide.plugins.DynamicPluginListener
+import com.intellij.ide.plugins.IdeaPluginDescriptor
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.diagnostic.Logger
 import dev.nocalhost.plugin.intellij.api.NocalhostApi
@@ -9,8 +11,20 @@ import dev.nocalhost.plugin.intellij.settings.data.NocalhostAccount
 import dev.nocalhost.plugin.intellij.utils.TokenUtil
 import java.text.MessageFormat
 
-class NocalhostTokenRefreshListener : ApplicationInitializedListener {
-    override suspend fun execute() {
+class NocalhostTokenRefreshListener : DynamicPluginListener {
+    override fun beforePluginLoaded(pluginDescriptor: IdeaPluginDescriptor) {
+        super.beforePluginLoaded(pluginDescriptor)
+    }
+
+    override fun pluginLoaded(pluginDescriptor: IdeaPluginDescriptor) {
+        super.pluginLoaded(pluginDescriptor)
+    }
+
+    override fun beforePluginUnload(pluginDescriptor: IdeaPluginDescriptor, isUpdate: Boolean) {
+        super.beforePluginUnload(pluginDescriptor, isUpdate)
+    }
+
+    suspend fun execute() {
         ApplicationManager.getApplication().executeOnPooledThread(Runnable {
             while (!ApplicationManager.getApplication().isDisposed) {
                 checkAndRefreshTokens()

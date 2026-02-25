@@ -51,6 +51,9 @@ public class SyncStatusPresentation implements StatusBarWidget.MultipleTextValue
     private final StatusBar statusBar;
     private final Project project;
     private final Disposable widget;
+    private Thread updateThread = null;
+    private Thread updateThread2 = null;
+    private boolean isDisposed = false;
 
     private final AtomicReference<NhctlSyncStatus> nhctlSyncStatus = new AtomicReference<>();
     private final AtomicReference<List<NhctlDevAssociateQueryResult>> services = new AtomicReference<>(Lists.newArrayList());
@@ -88,11 +91,13 @@ public class SyncStatusPresentation implements StatusBarWidget.MultipleTextValue
         this.project = project;
         this.statusBar = statusBar;
 
-        ApplicationManager.getApplication().executeOnPooledThread(() -> {
-            while ( ! project.isDisposed()) {
+       /* ApplicationManager.getApplication().executeOnPooledThread(() -> {
+            updateThread = Thread.currentThread();
+            while ( ! isDisposed) {
                 try {
                     nhctlSyncStatus.set(getNhctlSyncStatus());
                     Thread.sleep(3000);
+                } catch (InterruptedException ignored) {
                 } catch (Exception ex) {
                     LOG.error("Failed to get sync status", ex);
                 }
@@ -100,6 +105,9 @@ public class SyncStatusPresentation implements StatusBarWidget.MultipleTextValue
         });
 
         ApplicationManager.getApplication().executeOnPooledThread(() -> {
+            // TODO
+            return;
+            updateThread2 = Thread.currentThread();
             var path = project.getBasePath();
             if (path == null) {
                 return;
@@ -109,7 +117,7 @@ public class SyncStatusPresentation implements StatusBarWidget.MultipleTextValue
             var command = new NhctlAssociateQueryerCommand(project);
             command.setLocalSync(Paths.get(path).toString());
 
-            while ( ! project.isDisposed()) {
+            while ( ! isDisposed) {
                 var json = "";
                 try {
                     json = command.execute();
@@ -121,11 +129,13 @@ public class SyncStatusPresentation implements StatusBarWidget.MultipleTextValue
                             .action(results);
 
                     Thread.sleep(3000);
+                } catch (InterruptedException ignored) {
                 } catch (Exception ex) {
                     LOG.error("Failed to refresh service list: [" + json + "]", ex);
                 }
             }
         });
+        */
     }
 
     @Override
@@ -145,7 +155,13 @@ public class SyncStatusPresentation implements StatusBarWidget.MultipleTextValue
 
     @Override
     public void dispose() {
-        Disposer.dispose(widget);
+        this.isDisposed = true;
+        if (updateThread != null && !updateThread.isInterrupted()) {
+            updateThread.interrupt();
+        }
+        if (updateThread2 != null && !updateThread2.isInterrupted()) {
+            updateThread2.interrupt();
+        }
     }
 
     @Override

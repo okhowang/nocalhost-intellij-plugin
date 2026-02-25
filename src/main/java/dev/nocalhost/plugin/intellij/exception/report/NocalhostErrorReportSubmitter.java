@@ -36,10 +36,9 @@ public class NocalhostErrorReportSubmitter extends ErrorReportSubmitter {
     private static final SentryClient sentryClient;
 
     static {
-        InputStream in = NocalhostErrorReportSubmitter.class.getClassLoader().getResourceAsStream("config.properties");
-        Properties properties = new Properties();
         String dsn = "";
-        try {
+        try (InputStream in = NocalhostErrorReportSubmitter.class.getClassLoader().getResourceAsStream("config.properties")) {
+            Properties properties = new Properties();
             properties.load(in);
             dsn = properties.getProperty("sentryDsn");
         } catch (IOException ignore) {

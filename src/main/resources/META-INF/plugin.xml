@@ -66,13 +66,20 @@
                 instance="dev.nocalhost.plugin.intellij.ui.ApplicationSettingsConfigurable"
                 id="dev.nocalhost.plugin.intellij.ui.ApplicationSettingsConfigurable"
                 displayName="Nocalhost"/>
-        <applicationInitializedListener id="NocalhostTokenRefreshListener"
-                implementation="dev.nocalhost.plugin.intellij.startup.NocalhostTokenRefreshListener"/>
-        <applicationInitializedListener
-                implementation="dev.nocalhost.plugin.intellij.startup.DevSpaceTreeAutoRefreshListener"
-                order="after NocalhostTokenRefreshListener"/>
+<!--        <applicationInitializedListener id="NocalhostTokenRefreshListener"-->
+<!--                implementation="dev.nocalhost.plugin.intellij.startup.NocalhostTokenRefreshListener"/>-->
+<!--        <applicationInitializedListener-->
+<!--                implementation="dev.nocalhost.plugin.intellij.startup.DevSpaceTreeAutoRefreshListener"-->
+<!--                order="after NocalhostTokenRefreshListener"/>-->
 
     </extensions>
+
+    <applicationListeners>
+        <listener class="dev.nocalhost.plugin.intellij.startup.DevSpaceTreeAutoRefreshListener"
+                  topic="com.intellij.ide.plugins.DynamicPluginListener"/>
+        <listener class="dev.nocalhost.plugin.intellij.startup.NocalhostTokenRefreshListener"
+                  topic="com.intellij.ide.plugins.DynamicPluginListener"/>
+    </applicationListeners>
 
     <actions>
         <group id="NocalhostEditActions">
